@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 627" fill="none">
+  <!-- Background -->
+  <rect width="1200" height="627" fill="#2A9D8F"/>
+  
+  <!-- Background circle -->
+  <circle cx="600" cy="313" r="220" fill="#238B7E" opacity="0.6"/>
+  <circle cx="600" cy="313" r="220" fill="none" stroke="#3DB8A9" stroke-width="2" stroke-dasharray="12 8" opacity="0.5"/>
+  
+  <!-- Desk -->
+  <rect x="420" y="390" width="360" height="12" rx="6" fill="#8B6914"/>
+  <rect x="440" y="402" width="30" height="60" rx="4" fill="#7A5C11"/>
+  <rect x="730" y="402" width="30" height="60" rx="4" fill="#7A5C11"/>
+  
+  <!-- Laptop base -->
+  <rect x="480" y="340" width="180" height="55" rx="8" fill="#D4D4D4"/>
+  <rect x="485" y="345" width="170" height="40" rx="4" fill="#E8E8E8"/>
+  
+  <!-- Laptop screen -->
+  <rect x="500" y="260" width="140" height="85" rx="6" fill="#333"/>
+  <rect x="506" y="266" width="128" height="73" rx="3" fill="#4FC3F7"/>
+  <!-- Screen content lines -->
+  <rect x="516" y="280" width="60" height="4" rx="2" fill="white" opacity="0.7"/>
+  <rect x="516" y="290" width="80" height="4" rx="2" fill="white" opacity="0.5"/>
+  <rect x="516" y="300" width="50" height="4" rx="2" fill="white" opacity="0.7"/>
+  <rect x="516" y="310" width="70" height="4" rx="2" fill="white" opacity="0.5"/>
+  
+  <!-- Person - Body -->
+  <ellipse cx="600" cy="370" rx="55" ry="35" fill="#FF8A65"/>
+  
+  <!-- Person - Neck -->
+  <rect x="588" y="240" width="24" height="20" rx="4" fill="#FFCCBC"/>
+  
+  <!-- Person - Head -->
+  <ellipse cx="600" cy="220" rx="40" ry="45" fill="#FFCCBC"/>
+  
+  <!-- Hair -->
+  <ellipse cx="600" cy="195" rx="42" ry="30" fill="#4E342E"/>
+  <rect x="558" y="195" width="15" height="50" rx="7" fill="#4E342E"/>
+  <rect x="627" y="195" width="15" height="50" rx="7" fill="#4E342E"/>
+  
+  <!-- Eyes -->
+  <ellipse cx="586" cy="222" rx="4" ry="5" fill="#333"/>
+  <ellipse cx="614" cy="222" rx="4" ry="5" fill="#333"/>
+  
+  <!-- Smile -->
+  <path d="M588 235 Q600 245 612 235" stroke="#333" stroke-width="2" fill="none" stroke-linecap="round"/>
+  
+  <!-- Headset band -->
+  <path d="M555 210 Q555 170 600 165 Q645 170 645 210" stroke="#FF6D00" stroke-width="6" fill="none" stroke-linecap="round"/>
+  
+  <!-- Headset ear pieces -->
+  <rect x="547" y="205" width="14" height="22" rx="7" fill="#FF6D00"/>
+  <rect x="639" y="205" width="14" height="22" rx="7" fill="#FF6D00"/>
+  
+  <!-- Microphone arm -->
+  <path d="M555 218 Q540 235 540 250 Q540 260 550 260" stroke="#FF6D00" stroke-width="3" fill="none"/>
+  <circle cx="553" cy="260" r="5" fill="#FF6D00"/>
+  
+  <!-- Left chat bubble (orange) -->
+  <g transform="translate(370, 140)">
+    <rect width="120" height="75" rx="15" fill="#FF7043"/>
+    <polygon points="100,70 110,95 85,70" fill="#FF7043"/>
+    <!-- Chat lines -->
+    <rect x="18" y="20" width="60" height="5" rx="2.5" fill="white" opacity="0.9"/>
+    <rect x="18" y="32" width="85" height="5" rx="2.5" fill="white" opacity="0.7"/>
+    <rect x="18" y="44" width="50" height="5" rx="2.5" fill="white" opacity="0.9"/>
+  </g>
+  
+  <!-- Right chat bubble (teal/green) -->
+  <g transform="translate(700, 120)">
+    <rect width="130" height="80" rx="15" fill="#4DB6AC"/>
+    <polygon points="20,75 10,100 40,75" fill="#4DB6AC"/>
+    <!-- Chat lines -->
+    <rect x="18" y="22" width="70" height="5" rx="2.5" fill="white" opacity="0.9"/>
+    <rect x="18" y="34" width="95" height="5" rx="2.5" fill="white" opacity="0.7"/>
+    <rect x="18" y="46" width="55" height="5" rx="2.5" fill="white" opacity="0.9"/>
+  </g>
+  
+  <!-- Small decorative dots -->
+  <circle cx="340" cy="350" r="4" fill="#80CBC4" opacity="0.5"/>
+  <circle cx="860" cy="280" r="4" fill="#80CBC4" opacity="0.5"/>
+  <circle cx="380" cy="450" r="3" fill="#80CBC4" opacity="0.4"/>
+  <circle cx="820" cy="420" r="3" fill="#80CBC4" opacity="0.4"/>
+  <circle cx="450" cy="500" r="5" fill="#80CBC4" opacity="0.3"/>
+  <circle cx="750" cy="490" r="5" fill="#80CBC4" opacity="0.3"/>
+</svg>

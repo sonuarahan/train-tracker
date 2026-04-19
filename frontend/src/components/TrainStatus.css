@@ -1,0 +1,327 @@
+.train-status {
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.train-status::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('../assets/train-bg.jpg') center/cover no-repeat;
+  filter: blur(6px) brightness(0.45);
+  z-index: -1;
+}
+
+.search-section {
+  text-align: center;
+  margin-bottom: 2rem;
+  background: rgba(255, 255, 255, 0.92);
+  padding: 2rem;
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.search-section h2 {
+  color: #1a237e;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.search-form {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.search-input-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.search-input {
+  flex: 1;
+  padding: 0.85rem 1rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #1a237e;
+}
+
+.search-btn {
+  padding: 0.85rem 1.5rem;
+  background: #1a237e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+
+.search-btn:hover {
+  background: #283593;
+}
+
+.search-btn:disabled {
+  background: #9fa8da;
+  cursor: not-allowed;
+}
+
+.error-msg {
+  background: rgba(255, 235, 238, 0.95);
+  color: #c62828;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+  margin-bottom: 1rem;
+  backdrop-filter: blur(10px);
+}
+
+/* Search Results */
+.search-results {
+  background: rgba(255, 255, 255, 0.92);
+  padding: 1.5rem;
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.search-results h3 {
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.results-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.train-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.train-card:hover {
+  border-color: #1a237e;
+  box-shadow: 0 2px 12px rgba(26, 35, 126, 0.12);
+  transform: translateY(-1px);
+}
+
+.train-card-header {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.train-no {
+  background: #1a237e;
+  color: white;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.train-name {
+  font-weight: 600;
+  color: #333;
+}
+
+.train-card-route {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.route-arrow {
+  color: #1a237e;
+  font-weight: bold;
+}
+
+.train-card-time {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 0.4rem;
+  color: #888;
+  font-size: 0.85rem;
+}
+
+/* Live Status */
+.live-status-section {
+  animation: fadeIn 0.3s ease;
+  background: rgba(255, 255, 255, 0.92);
+  padding: 2rem;
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.status-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.status-header h3 {
+  color: #1a237e;
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.route-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  font-size: 1rem;
+  color: #555;
+}
+
+.station {
+  font-weight: 600;
+  background: #e8eaf6;
+  padding: 0.3rem 0.75rem;
+  border-radius: 6px;
+}
+
+.route-line {
+  color: #9fa8da;
+  letter-spacing: -2px;
+}
+
+.status-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.info-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 1rem;
+  text-align: center;
+}
+
+.info-card.delay {
+  border-color: #ef5350;
+  background: #fff5f5;
+}
+
+.info-card.ontime {
+  border-color: #66bb6a;
+  background: #f1f8e9;
+}
+
+.info-label {
+  font-size: 0.8rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.3rem;
+}
+
+.info-value {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.info-card.delay .info-value {
+  color: #c62828;
+}
+
+.info-card.ontime .info-value {
+  color: #2e7d32;
+}
+
+/* Station Table */
+.station-list {
+  margin-top: 1.5rem;
+}
+
+.station-list h4 {
+  color: #333;
+  margin-bottom: 0.75rem;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+thead {
+  background: #1a237e;
+  color: white;
+}
+
+th {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-weight: 500;
+}
+
+td {
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+tbody tr:hover {
+  background: #f5f5ff;
+}
+
+.text-red {
+  color: #c62828;
+  font-weight: 600;
+}
+
+.text-green {
+  color: #2e7d32;
+  font-weight: 600;
+}
+
+.back-btn {
+  margin-top: 1.5rem;
+  padding: 0.7rem 1.5rem;
+  background: transparent;
+  color: #1a237e;
+  border: 2px solid #1a237e;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.back-btn:hover {
+  background: #1a237e;
+  color: white;
+}
