@@ -2,7 +2,7 @@ services:
   - type: web
     name: train-tracker
     runtime: python
-    buildCommand: "./build.sh"
+    buildCommand: "bash build.sh"
     startCommand: "cd backend && gunicorn --worker-class eventlet -w 1 --bind 0.0.0.0:$PORT app:app"
     envVars:
       - key: SECRET_KEY

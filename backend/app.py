@@ -8,7 +8,9 @@ from datetime import datetime
 import re
 
 # Serve React build from ../frontend/dist
-STATIC_FOLDER = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "frontend", "dist"))
+STATIC_FOLDER = os.path.abspath(
+    os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "frontend", "dist")
+)
 print(f"Static folder: {STATIC_FOLDER}, exists: {os.path.exists(STATIC_FOLDER)}")
 
 app = Flask(__name__, static_folder=STATIC_FOLDER, static_url_path="")
@@ -197,7 +199,10 @@ def serve_react(path):
     index = os.path.join(STATIC_FOLDER, "index.html")
     if os.path.exists(index):
         return send_from_directory(STATIC_FOLDER, "index.html")
-    return f"Static folder: {STATIC_FOLDER}, exists: {os.path.exists(STATIC_FOLDER)}, files: {os.listdir(STATIC_FOLDER) if os.path.exists(STATIC_FOLDER) else 'N/A'}", 404
+    return (
+        f"Static folder: {STATIC_FOLDER}, exists: {os.path.exists(STATIC_FOLDER)}, files: {os.listdir(STATIC_FOLDER) if os.path.exists(STATIC_FOLDER) else 'N/A'}",
+        404,
+    )
 
 
 if __name__ == "__main__":
