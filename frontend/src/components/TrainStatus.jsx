@@ -189,24 +189,7 @@ function TrainStatus() {
             </div>
           </div>
 
-          {/* Progress Bar */}
-          {liveStatus.stations && (
-            <div className="progress-bar-section">
-              <div className="progress-bar">
-                {liveStatus.stations.map((stn, idx) => {
-                  const isCurrent = stn.name === liveStatus.currentStation
-                  return (
-                    <div key={idx} className={`progress-station${isCurrent ? " current" : ""}`}> 
-                      <div className="station-marker">
-                        {isCurrent ? <FaTrain className="current-train-icon" /> : <span className="dot" />}
-                      </div>
-                      <div className="station-label">{stn.code}</div>
-                    </div>
-                  )
-                })}
-              </div>
-            </div>
-          )}
+
 
           <div className="status-cards">
             <div className="info-card">
@@ -284,11 +267,25 @@ function TrainStatus() {
                     currentStationName = parts[1]?.trim();
                   }
 
-                  // Try to find the current station in the list
-                  currentIdx = stations.findIndex(stn =>
-                    (currentStationCode && stn.code.toLowerCase() === currentStationCode.toLowerCase()) ||
-                    (currentStationName && stn.name.toLowerCase() === currentStationName.toLowerCase())
-                  );
+                  // Try to find the current station in the list (robust matching)
+                  currentIdx = stations.findIndex(stn => {
+                    // Match by code (case-insensitive)
+                    if (currentStationCode && stn.code && stn.code.toLowerCase() === currentStationCode.toLowerCase()) {
+                      return true;
+                    }
+                    // Match by name (case-insensitive, partial match allowed)
+                    if (currentStationName && stn.name && stn.name.toLowerCase().includes(currentStationName.toLowerCase())) {
+                      return true;
+                    }
+                    // Match by combined code-name string (sometimes API returns 'CODE - NAME')
+                    if (liveStatus.currentStation && (
+                      stn.code && liveStatus.currentStation.toLowerCase().includes(stn.code.toLowerCase()) ||
+                      stn.name && liveStatus.currentStation.toLowerCase().includes(stn.name.toLowerCase())
+                    )) {
+                      return true;
+                    }
+                    return false;
+                  });
 
                   // Only inject if not present
                   if (currentIdx === -1 && currentStationCode && currentStationName) {
