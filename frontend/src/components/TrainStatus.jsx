@@ -1,10 +1,12 @@
 import { useState, useRef, useEffect } from "react"
+import { useTranslation } from 'react-i18next';
 import "./TrainStatus.css"
 import { FaTrain, FaMapMarkerAlt, FaClock, FaCheckCircle, FaExclamationCircle, FaSyncAlt } from "react-icons/fa"
 
 const API_BASE = "/api"
 
 function TrainStatus() {
+  const { t } = useTranslation();
   // Remove modal state
 
   const [query, setQuery] = useState("")
@@ -95,29 +97,29 @@ function TrainStatus() {
   return (
     <div className="train-status">
       <div className="search-section">
-        <h2>Check Live Train Running Status</h2>
+        <h2>{t('check_live_train_status', 'Check Live Train Running Status')}</h2>
         <form onSubmit={handleDirectStatus} className="search-form">
           <div className="search-input-group">
             <input
               type="text"
-              placeholder="Enter train number (e.g. 12951) or train name"
+              placeholder={t('search_placeholder')}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               className="search-input"
               maxLength={50}
             />
             <button type="submit" className="search-btn" disabled={loading}>
-              {loading ? "Searching..." : "Search"}
+              {loading ? t('searching', 'Searching...') : t('search_button')}
             </button>
           </div>
         </form>
       </div>
 
-      {error && <div className="error-msg">{error}</div>}
+      {error && <div className="error-msg">{t(error, error)}</div>}
 
       {searchResults.length > 0 && (
         <div className="search-results">
-          <h3>Search Results</h3>
+          <h3>{t('search_results', 'Search Results')}</h3>
           <div className="results-list">
             {searchResults.map((train, i) => (
               <div key={i} className="train-card" onClick={() => handleGetStatus(train.trainNo)}>
@@ -131,8 +133,8 @@ function TrainStatus() {
                   <span>{train.toStn}</span>
                 </div>
                 <div className="train-card-time">
-                  <span>Dep: {train.departTime}</span>
-                  <span>Arr: {train.arriveTime}</span>
+                  <span>{t('departure')}: {train.departTime}</span>
+                  <span>{t('arrival')}: {train.arriveTime}</span>
                 </div>
               </div>
             ))}
@@ -208,7 +210,7 @@ function TrainStatus() {
 
           <div className="status-cards">
             <div className="info-card">
-              <div className="info-label">Current Station</div>
+              <div className="info-label">{t('current_station')}</div>
               <a
                 className="info-value highlight clickable"
                 title="Click to view Google Images for this station"
@@ -223,7 +225,7 @@ function TrainStatus() {
             </div>
 
             <div className={`info-card ${liveStatus.delay !== "On Time" ? "delay" : "ontime"}`}>
-              <div className="info-label">Status</div>
+              <div className="info-label">{t('status')}</div>
               <div className="info-value">
                 {liveStatus.delay !== "On Time" ? (
                   <><FaExclamationCircle style={{color: '#c62828', marginRight: 4}} />{liveStatus.delay}</>
@@ -233,7 +235,7 @@ function TrainStatus() {
               </div>
             </div>
             <div className="info-card">
-              <div className="info-label">Last Updated</div>
+              <div className="info-label">{t('last_updated')}</div>
               <div className="info-value">
                 <FaClock style={{marginRight: 4, color: '#3949ab'}} />
                 {liveStatus.lastUpdated}
@@ -358,17 +360,17 @@ function TrainStatus() {
                           <div className="timeline-station-row">
                             <span className="timeline-station-code"><strong>{stn.code}</strong></span>
                             <span className="timeline-station-name">{stn.name}</span>
-                            {isCurrent && <span className="timeline-current-badge">Train is here now</span>}
-                            <span className="timeline-platform">• PF {stn.platform}</span>
+                            {isCurrent && <span className="timeline-current-badge">{t('train_is_here')}</span>}
+                            <span className="timeline-platform">• {t('platform')} {stn.platform}</span>
                             <span className={`timeline-delay ${stn.delay !== "On Time" ? "timeline-delay-late" : "timeline-delay-ontime"}`}>{stn.delay}</span>
                           </div>
                           <div className="timeline-times">
                             <div>
-                              <span className="timeline-label">Arrival</span>
+                              <span className="timeline-label">{t('arrival')}</span>
                               <span className="timeline-time">{stn.actArr || stn.schArr}</span>
                             </div>
                             <div>
-                              <span className="timeline-label">Departure</span>
+                              <span className="timeline-label">{t('departure')}</span>
                               <span className="timeline-time">{(() => {
                                 if (
                                   stn.actArr && stn.actArr !== "-" &&
@@ -401,7 +403,7 @@ function TrainStatus() {
           )}
 
           <button className="back-btn" onClick={() => { setLiveStatus(null); setQuery("") }}>
-            ← Search Another Train
+            ← {t('search_another_train')}
           </button>
         </div>
       )}
