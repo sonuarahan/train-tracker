@@ -1,4 +1,4 @@
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import "./TrainStatus.css"
 import { FaTrain, FaMapMarkerAlt, FaClock, FaCheckCircle, FaExclamationCircle, FaSyncAlt } from "react-icons/fa"
 
@@ -42,6 +42,9 @@ function TrainStatus() {
     }
   }
 
+  // Ref for scrolling to current station
+  const currentStationRef = useRef(null)
+
   const handleGetStatus = async (trainNo, isRefresh = false) => {
     setLoading(true)
     setError("")
@@ -56,6 +59,12 @@ function TrainStatus() {
       const data = await res.json()
       if (data.success) {
         setLiveStatus(data.data)
+        // Scroll to current station after a short delay (after DOM update)
+        setTimeout(() => {
+          if (currentStationRef.current) {
+            currentStationRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+          }
+        }, 300);
       } else {
         setError(data.error || "Failed to get live status")
       }
@@ -336,7 +345,11 @@ function TrainStatus() {
                     const isPast = i < currentIdx;
                     const isFuture = i > currentIdx;
                     return (
-                      <div key={i} className={`timeline-card${isCurrent ? " current-timeline-card current-timeline-green" : ""}${isPast ? " past-timeline-card" : ""}${isFuture ? " future-timeline-card" : ""}`}> 
+                      <div
+                        key={i}
+                        className={`timeline-card${isCurrent ? " current-timeline-card current-timeline-green" : ""}${isPast ? " past-timeline-card" : ""}${isFuture ? " future-timeline-card" : ""}`}
+                        ref={isCurrent ? currentStationRef : null}
+                      >
                         <div className={`timeline-marker${isCurrent ? " timeline-marker-current" : ""}${isPast ? " timeline-marker-past" : ""}`}> 
                           {isCurrent ? <span className="timeline-train-pulse"><FaTrain className="timeline-train-icon" /></span> : <span className="timeline-dot" />}
                           {i !== stations.length - 1 && <div className={`timeline-line${isPast || isCurrent ? " timeline-line-current" : ""}`} />}
@@ -357,13 +370,11 @@ function TrainStatus() {
                             <div>
                               <span className="timeline-label">Departure</span>
                               <span className="timeline-time">{(() => {
-                                // If actArr, schArr, and schDep are present, calculate: actArr + (schDep - schArr)
                                 if (
                                   stn.actArr && stn.actArr !== "-" &&
                                   stn.schArr && stn.schArr !== "-" &&
                                   stn.schDep && stn.schDep !== "-"
                                 ) {
-                                  // Parse times to minutes
                                   const [actH, actM] = stn.actArr.split(":").map(Number);
                                   const [schArrH, schArrM] = stn.schArr.split(":").map(Number);
                                   const [schDepH, schDepM] = stn.schDep.split(":").map(Number);
