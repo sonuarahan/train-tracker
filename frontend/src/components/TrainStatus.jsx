@@ -370,21 +370,23 @@ function TrainStatus() {
                               <span className="timeline-label">{t('departure')}</span>
                               <span className="timeline-time">{(() => {
                                 if (
-                                  stn.actArr && stn.actArr !== "-" &&
-                                  stn.schArr && stn.schArr !== "-" &&
-                                  stn.schDep && stn.schDep !== "-"
+                                  stn.actArr && stn.actArr !== "-" && stn.actArr !== "--" &&
+                                  stn.schArr && stn.schArr !== "-" && stn.schArr !== "--" &&
+                                  stn.schDep && stn.schDep !== "-" && stn.schDep !== "--"
                                 ) {
                                   const [actH, actM] = stn.actArr.split(":").map(Number);
                                   const [schArrH, schArrM] = stn.schArr.split(":").map(Number);
                                   const [schDepH, schDepM] = stn.schDep.split(":").map(Number);
-                                  const actArrMin = actH * 60 + actM;
-                                  const schArrMin = schArrH * 60 + schArrM;
-                                  const schDepMin = schDepH * 60 + schDepM;
-                                  const offset = schDepMin - schArrMin;
-                                  const depMin = actArrMin + offset;
-                                  const depH = Math.floor(depMin / 60) % 24;
-                                  const depM = depMin % 60;
-                                  return `${depH.toString().padStart(2, "0")}:${depM.toString().padStart(2, "0")}`;
+                                  if (!isNaN(actH) && !isNaN(actM) && !isNaN(schArrH) && !isNaN(schArrM) && !isNaN(schDepH) && !isNaN(schDepM)) {
+                                    const actArrMin = actH * 60 + actM;
+                                    const schArrMin = schArrH * 60 + schArrM;
+                                    const schDepMin = schDepH * 60 + schDepM;
+                                    const offset = schDepMin - schArrMin;
+                                    const depMin = actArrMin + offset;
+                                    const depH = Math.floor(depMin / 60) % 24;
+                                    const depM = depMin % 60;
+                                    return `${depH.toString().padStart(2, "0")}:${depM.toString().padStart(2, "0")}`;
+                                  }
                                 }
                                 return stn.schDep || "-";
                               })()}</span>
