@@ -19,7 +19,23 @@ function CoPassengerChat() {
   const socketRef = useRef(null)
   const messagesEndRef = useRef(null)
 
+  // Restore session from localStorage on mount
   useEffect(() => {
+    const savedSession = localStorage.getItem("chatSession")
+    if (savedSession) {
+      try {
+        const session = JSON.parse(savedSession)
+        setPnr(session.pnr)
+        setUsername(session.username)
+        setPnrData(session.pnrData)
+        // Auto-rejoin chat
+        rejoinChat(session.pnrData.trainNo, session.username)
+      } catch (err) {
+        console.error("Failed to restore session:", err)
+        localStorage.removeItem("chatSession")
+      }
+    }
+
     return () => {
       if (socketRef.current) {
         socketRef.current.disconnect()
@@ -44,6 +60,14 @@ function CoPassengerChat() {
 
       if (data.success) {
         setPnrData(data.data)
+        
+        // Save session to localStorage for persistence
+        localStorage.setItem("chatSession", JSON.stringify({
+          pnr: pnr.trim(),
+          username: username.trim(),
+          pnrData: data.data
+        }))
+        
         // Load chat history
         const histRes = await fetch(`${API_BASE}/chat-history/${data.data.trainNo}`)
         const histData = await histRes.json()
@@ -62,7 +86,7 @@ function CoPassengerChat() {
     }
   }
 
-  const joinChat = (trainNo) => {
+  const joinChat = (trainNo, isReconnect = false) => {
     const socket = io(SOCKET_URL, {
       transports: ["websocket", "polling"],
     })
@@ -71,12 +95,25 @@ function CoPassengerChat() {
       socket.emit("join_chat", {
         trainNo,
         username: username.trim(),
+        isReconnect: isReconnect,
       })
       setJoined(true)
     })
 
     socket.on("message", (msg) => {
       setMessages((prev) => [...prev, msg])
+    })
+
+    socket.on("chat_history", (data) => {
+      // Load chat history from server (persisted messages)
+      setMessages(data.messages)
+    })
+
+    socket.on("journey_complete", (data) => {
+      // Train reached destination - clear session
+      localStorage.removeItem("chatSession")
+      setMessages([])
+      alert(data.message || "Train reached destination. Chat history cleared.")
     })
 
     socket.on("user_count", (data) => {
@@ -92,6 +129,66 @@ function CoPassengerChat() {
     })
 
     socketRef.current = socket
+  }
+
+  const rejoinChat = async (trainNo, savedUsername) => {
+    setLoading(true)
+    try {
+      // Load chat history from server
+      const histRes = await fetch(`${API_BASE}/chat-history/${trainNo}`)
+      const histData = await histRes.json()
+      if (histData.success) {
+        setMessages(histData.messages)
+      }
+
+      // Reconnect to WebSocket
+      const socket = io(SOCKET_URL, {
+        transports: ["websocket", "polling"],
+      })
+
+      socket.on("connect", () => {
+        socket.emit("join_chat", {
+          trainNo,
+          username: savedUsername,
+          isReconnect: true,
+        })
+        setJoined(true)
+      })
+
+      socket.on("message", (msg) => {
+        setMessages((prev) => [...prev, msg])
+      })
+
+      socket.on("chat_history", (data) => {
+        setMessages(data.messages)
+      })
+
+      socket.on("journey_complete", (data) => {
+        // Train reached destination - clear session
+        localStorage.removeItem("chatSession")
+        setMessages([])
+        alert(data.message || "Train reached destination. Chat history cleared.")
+      })
+
+      socket.on("user_count", (data) => {
+        setUserCount(data.count)
+      })
+
+      socket.on("error", (data) => {
+        setError(data.message)
+      })
+
+      socket.on("disconnect", () => {
+        setJoined(false)
+      })
+
+      socketRef.current = socket
+    } catch (err) {
+      setError("Failed to rejoin chat")
+      console.error(err)
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleSendMessage = (e) => {
@@ -113,10 +210,15 @@ function CoPassengerChat() {
       socketRef.current.disconnect()
       socketRef.current = null
     }
+    
+    // Don't clear localStorage - history persists until train reaches destination
+    
     setJoined(false)
     setPnrData(null)
     setMessages([])
     setUserCount(0)
+    setPnr("")
+    setUsername("")
   }
 
   const formatTime = (timestamp) => {

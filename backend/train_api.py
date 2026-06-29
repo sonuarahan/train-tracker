@@ -69,11 +69,6 @@ def get_live_status(train_number: str, start_date: str) -> dict:
     return _get_live_status_mock(train_number, start_date)
 
 
-def get_pnr_status(pnr: str) -> dict:
-    """Get PNR status (mock — RailYatri PNR API is not publicly available)."""
-    return _get_pnr_status_mock(pnr)
-
-
 # ── RailYatri API calls ────────────────────────────────────────────────
 
 
@@ -375,30 +370,5 @@ def _get_live_status_mock(train_number: str, start_date: str) -> dict:
             "lastUpdated": "2 min ago",
             "journeyDate": start_date,
             "stations": MOCK_STATIONS,
-        },
-    }
-
-
-def _get_pnr_status_mock(pnr: str) -> dict:
-    if len(pnr) != 10 or not pnr.isdigit():
-        return {"success": False, "error": "Invalid PNR number. Must be 10 digits."}
-
-    return {
-        "success": True,
-        "data": {
-            "pnrNumber": pnr,
-            "trainNo": "12951",
-            "trainName": "Mumbai Rajdhani Express",
-            "fromStn": "MMCT",
-            "toStn": "NDLS",
-            "journeyDate": "2026-04-20",
-            "chartStatus": "Chart Prepared",
-            "passengers": [
-                {
-                    "number": 1,
-                    "bookingStatus": "S1/32/GN",
-                    "currentStatus": "CNF/S1/32",
-                },
-            ],
         },
     }

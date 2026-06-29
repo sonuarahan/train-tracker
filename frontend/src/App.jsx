@@ -1,12 +1,20 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useTranslation } from 'react-i18next';
 import TrainStatus from "./components/TrainStatus"
 import CoPassengerChat from "./components/CoPassengerChat"
 import "./App.css"
 
 function App() {
-  const [activeTab, setActiveTab] = useState("status")
+  // Restore active tab from localStorage or default to "status"
+  const [activeTab, setActiveTab] = useState(() => {
+    return localStorage.getItem("activeTab") || "status"
+  })
   const { t, i18n } = useTranslation();
+
+  // Save active tab to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("activeTab", activeTab)
+  }, [activeTab])
 
   const languages = [
     { code: 'en', label: 'English' },
